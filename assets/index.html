@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My JSCode Quiz</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+  </head>
+  <body>
+    <header id="startPage">
+      <div class= "largeFont">Coding Quiz Challenge</div>
+      <div id="instructions">Try to answer the following code-related questions correctly within the time limit.
+      <br>Keep in mind that any incorrect answers will penalize your score/time by ten seconds!</div>
+      <button class="startButton">Start</button>
+    </header>
+
+    <main id="quizPage" class="hide">
+        <section>
+         <div class="timer largeFont">Timer:</div>
+         <h1 class="largeFont">Question Text</h1>
+         <ul class="answers">
+             <button>Answer 1</button>
+             <button>Answer 2</button>
+         </ul>
+         <div class="largeFont" id="checkline">Correct or Wrong</div>
+        </section>
+
+        <section id="scorePage" class="hide">
+          <div>
+            <h2 class="largeFont">Finish!</h2>
+            <p id="finalScore">Final Score:</p>
+            <p>Enter you Initials
+             <input id="initial">
+             <button id="submitBtn" class="largeFont reactButtons">Submit</button>
+            </p>
+          </div> 
+        </section>
+
+        <section id="highScorePage">
+            <div>
+                <h2>High Scores</h2>
+                <div id="scoreRecord">
+                    <p>Your Record</p>
+                </div><br>
+                <div>
+                    <button class="reactButtons" id="backButton">Return</button>
+                    <button class="reactButtons" id="clearButton">Reset</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
