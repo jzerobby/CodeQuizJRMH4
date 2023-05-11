@@ -1,55 +1,69 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My JSCode Quiz</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <header id="startPage">
-      <div class= "largeFont">Coding Quiz Challenge</div>
-      <div id="instructions">Try to answer the following code-related questions correctly within the time limit.
-      <br>Keep in mind that any incorrect answers will penalize your score/time by ten seconds!</div>
-      <button class="startButton">Start</button>
-    </header>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
 
-    <main id="quizPage" class="hide">
-        <section>
-         <div class="timer largeFont">Timer:</div>
-         <h1 class="largeFont">Question Text</h1>
-         <ul class="answers">
-             <button>Answer 1</button>
-             <button>Answer 2</button>
-         </ul>
-         <div class="largeFont" id="checkline">Correct or Wrong</div>
-        </section>
+<body>
+    <div class="start_btn"><button>Start</button></div>
+    <div class="info_box">
+        <div class="info_title">
+          <span>Quiz Rules</span>
+        </div>
+        <div class="info_list">
+          <div class="info">1. You will only have <span>1 minute</span> to answer all 5 questions.</div>
+          <div class="info">2. Once you select your answer, you can't reselect.</div>
+          <div class="info">3. <span>10 seconds</span> will be lost once you got the wrong answer.</div>
+          <div class="info">4. The game is over once the time is done.</div>
+          <div class="info">5. You can't exit from the quiz while you're playing.</div>
+          <div class="info">6. You'll get points for every correct answers.</div>
+        </div>
+        <div class="buttons">
+          <button class="quit">Quit</button>
+          <button class="restart">Continue</button>
+        </div>
+    </div>
 
-        <section id="scorePage" class="hide">
-          <div>
-            <h2 class="largeFont">Finish!</h2>
-            <p id="finalScore">Final Score:</p>
-            <p>Enter you Initials
-             <input id="initial">
-             <button id="submitBtn" class="largeFont reactButtons">Submit</button>
-            </p>
-          </div> 
-        </section>
-
-        <section id="highScorePage">
-            <div>
-                <h2>High Scores</h2>
-                <div id="scoreRecord">
-                    <p>Your Record</p>
-                </div><br>
-                <div>
-                    <button class="reactButtons" id="backButton">Return</button>
-                    <button class="reactButtons" id="clearButton">Reset</button>
-                </div>
+    <div class="quiz_box">
+        <header>
+            <div class="title">Easy Quiz Website</div>
+            <div class="timer">
+                <div class="timer_text">Time Left</div>
+                <div class="timer_sec">60</div>
             </div>
+        </header>
+        <section>
+            <div class="que_text"></div>
+            <div class="option_list"></div>
         </section>
-    </main>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="js/script.js"></script>
-  </body>
+
+        <footer>
+            <div class="total_que"></div>
+            <button class="next_btn">Next</button>
+        </footer>
+    </div>
+
+    <div class="result_box">
+        <div class="icon">
+            <i class='fa fa-trophy'></i>
+        </div>
+        <div class="complete_text">Game Over!</div>
+        <div class="score_text"></div>
+        <form class="buttons form">
+            <input class="initial" type="text" placeholder="Initials Here!" id="saveInitials">
+            <button id="saveData" class="save">Save</button>
+        </form>
+        <div class="initial_score"></div>
+        <div class="buttons" >
+            <button class="restart">Restart</button>
+            <button class="quit">Quit</button>
+        </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
 </html>

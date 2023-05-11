@@ -1,182 +1,196 @@
-var startButton = document.querySelector(".startButton");
-var quizPage = document.querySelector("#quizPage");
-var checkline = document.querySelector("#checkline");
-var submitBtn = document.querySelector("submitBtn");
-var finalScore = document.querySelector("#finalScore");
-var userInitial = document.querySelector("#initial");
-var highScorePage = document.querySelector("#highScorePage");
-var scoreRecord = document.querySelector("#scoreRecord");
-var reactButtons = document.querySelector(".reactButtons")
-var backButton = document.querySelector("#backButton");
-var clearButton = document.querySelector("#clearButton");
+var start_btn = document.querySelector(".start_btn");
+var info_box = document.querySelector(".info_box");
+var exit_btn = info_box.querySelector(".quit");
+var continue_btn = info_box.querySelector(".restart");
+var quiz_box = document.querySelector(".quiz_box");
+var option_list = document.querySelector(".option_list");
+var timeCount = quiz_box.querySelector(".timer_sec");
 
-var questionIndex;
+start_btn.onclick = ()=>{
+    info_box.classList.add("activeInfo");
+}
+
+exit_btn.onclick = ()=>{
+    info_box.classList.remove("activeInfo");
+}
+
+continue_btn.onclick = ()=>{
+    info_box.classList.remove("activeInfo");
+    quiz_box.classList.add("activeQuiz");
+    showQuestions(0);
+    queCounter(1);
+    startTimer(60);
+}
 
 var questions = [
     {
-        question: "Do you wanna build a snowman?",
-        choices: [
+        numb: 1,
+        question: "What's next to this song? - Do you wanna build a snowman?",
+        answer: "Go away, Anna!",
+        options: [
             "Go away, Anna!",
             "Sure, Elsa!",
-        ],
-        answer: 0,
+        ]
     },
     {
+        numb: 2,
         question: "Which pill did Neo choose?",
-        choices: [
+        answer: "The Red Pill",
+        options: [
             "The Blue Pill",
             "The Red Pill",
-        ],
-        answer: 1,
+        ]
     },
     {
-        question: "Who let the dogs out?",
-        choices: [
+        numb: 3,
+        question: "Who sang the song - Who let the dogs out?",
+        answer: "Baha Men",
+        options: [
             "Baha Men",
             "Patti Page",
-        ],
-        answer: 0,
-    }
-]
+        ]
+    },
+    {
+        numb: 4,
+        question: "Who won the Squid Game?",
+        answer: "Seong Gi-hun",
+        options: [
+            "The Avengers",
+            "Seong Gi-hun",
+        ]
+    },
+    {
+        numb: 5,
+        question: "Which one is hotter than the Sun?",
+        answer: "Lightning",
+        options: [
+            "Lightning",
+            "Magma",
+        ]
+    },
+];
 
-function loadQuestion() {
-    var quiz = questions[questionIndex];
-    $("#quizPage").children("section").children("h1").text(quiz.question);
-    $("#quizPage").children("section").children(".answers").children().eq(0).text(quiz.choices[0]);
-    $("#quizPage").children("section").children(".answers").children().eq(1).text(quiz.choices[1]);
-};
+var que_count = 0;
+var que_numb = 1;
+var counter;
+var timeValue = 60;
+var userScore = 0;
 
-//when I answer a question, show if answer is correct or wrong
-function checkAnswer(event) {
-    event.preventDefault();
-    //make it display
-    checkline.style.display = "block";
-    setTimeout(function () {
-        checkline.style.display = "none";
-        //I am presented with another question
-        if (questions < quiz.length -1) {
-            loadQuestion(questions + 1);
-        }
-        else {
-            gameOver();
-        }
-        questionCount++;
-    }, 3000);
+var next_btn = quiz_box.querySelector(".next_btn");
+var result_box = document.querySelector(".result_box");
+var restart_quiz = result_box.querySelector(".buttons .restart");
+var quit_quiz = result_box.querySelector(".buttons .quit");
 
-    //answer check
-    if (questions[quiz].answer == event.target.value) {
-        checkline.textContent = "Correct!";
-        totalScore = totalScore + 1;
-    }
-    else {
-        secondsLeft = secondsLeft - 10;
-        checkline.textContent = "Wrong!";
+restart_quiz.onclick = ()=>{
+    info_box.classList.add("activeInfo");
+    result_box.classList.remove("activeResult");
+}
+
+quit_quiz.onclick = ()=>{
+    window.location.reload();
+}
+
+next_btn.onclick = ()=>{
+    if(que_count < questions.length -1){
+        que_count++;
+        que_numb++;
+        showQuestions(que_count);
+        queCounter(que_numb);
+        next_btn.style.display = "none";
+    }else{
+        console.log("Questions Completed");
+        showResultBox();
     }
 }
 
-//when all questions are answered or the timer reaches 0, Game is over
-function gameOver() {
-    quizPage.style.display = "none";
-    scoreBoard.style.display = "block";
-    console.log(scoreBoard);
-    //show final score
-    finalScore.textContent = "Final score:" + totalScore;
-    // clearInterval(timerInterval);
-    timeleft.style.display = "none";
-};
-
-//render score to the score board
-function renderScore () {
-    scoreRecord.innerHTML = "";
-    scoreRecord.style.display = "block";
-    var highScores = sort();
-    //Slice the high score array to only show the top five high scores.
-    var topFive = highScores.slice(0,10);
-    for (var i = 0; i < topFive.length; i++) {
-        var item = topFive[i];
-        // Show the score list on scoreboard
-        var li = document.createElement("li");
-        li.textContent = item.user + item.score;
-        li.setAttribute("data-index",i);
-        scoreRecord.appendChild(li);
+function showQuestions(i){
+    var que_text = document.querySelector(".que_text");
+    var que_tag = '<span>'+ questions[i].numb + ". " + questions[i].question +'</span>';
+    var option_tag = '<div class="option">' + questions[i].options[0] + '<span></span></div>' + '<div class="option">' + questions[i].options[1] + '<span></span></div>';
+    que_text.innerHTML = que_tag;
+    option_list.innerHTML = option_tag;
+    var option = option_list.querySelectorAll(".option");
+    for (var i = 0; i < option.length; i++) {
+        option[i].setAttribute("onclick", "optionSelected(this)");
     }
-};
+}
 
-//sort score and ranking the highscore list
-function sort () {
-    var unsortedList = getScore();
-    if (getScore == null) {
-        return;
-    } 
-    else {
-        unsortedList.sort(function(a,b){
-            return b.score - a.score;
-        })
-        return unsortedList;
+var tickIcon = '<div class="icon tick"><i class="fa fa-check"></i></div>';
+var crossIcon = '<div class="icon cross"><i class="fa fa-times"></i></div>';
+
+function optionSelected(answer){
+    var userAns = answer.textContent;
+    var correctAns = questions[que_count].answer;
+    var allOptions = option_list.children.length;
+    if (userAns == correctAns){
+        userScore += 1;
+        console.log(userScore);
+        answer.classList.add("correct");
+        console.log("Answer is Correct");
+        answer.insertAdjacentHTML("beforeEnd", tickIcon);
+    }else{
+        answer.classList.add("wrong");
+        console.log("Answer is Wrong");
+        answer.insertAdjacentHTML("beforeEnd", crossIcon);
+        var minusTen = timeCount.textContent;
+        timeCount.textContent = minusTen -"10";
+
+        for (var i = 0; i < allOptions; i++) {
+           if(option_list.children[i].textContent == correctAns){
+               option_list.children[i].setAttribute("class", "option correct");
+               option_list.children[i].insertAdjacentHTML("beforeEnd", tickIcon);
+           }
+        }
     }
-};
 
-//push new score and initial to the local storage
-function addItem (n) {
-    var addedList = getScore();
-    addedList.push(n);
-    localStorage.setItem("ScoreList", JSON.stringify(addedlist));
-};
-
-function saveScore () {
-    var scoreItem = {
-        user: userInitial.value,
-        score: totalScore,
+    for (var i = 0; i < allOptions; i++) {
+        option_list.children[i].classList.add("disabled");
     }
-    addItem(scoreItem);
-    renderScore();
-};
+    next_btn.style.display = "block";
+}
 
-startButton.addEventListener("click", function() {
-    document.querySelector("#quizPage").setAttribute("class", "");
-    document.querySelector("#startPage").setAttribute("class", "hide");
-    questionIndex = 0;
-    loadQuestion();
-});
+function showResultBox(){
+    info_box.classList.remove("activeInfo");
+    quiz_box.classList.remove("activeQuiz");
+    result_box.classList.add("activeResult");
+    var scoreText = result_box.querySelector(".score_text");
+    var scoreTag = '<span>Your Score:<p>'+ userScore +'</p><p>out of</p><p>'+ questions.length +'</p></span>';
+    scoreText.innerHTML = scoreTag;
+    var initialScore = result_box.querySelector(".initial_score");
+    var scoreBoard = ' <span><p>Last Player:</p><p>Initials:</p><p>Score: '+ userScore +'</p></span>';
+    initialScore.innerHTML = scoreBoard;
+}
 
-//click any choices button, go to the next question
-reactButtons.forEach(function(click) {
-    click.addEventListener("click", checkAnswer);
-});
+function startTimer(time){
+    counter = setInterval(timer, 1000);
+    function timer(){
+        timeCount.textContent = time;
+        time--;
+        if(time <9){
+            var addZero = timeCount.textContent;
+            timeCount.textContent = "0" + addZero;
+        }
+        if(time < 0){
+            clearInterval(counter);
+            timeCount.textContent = "00";
+        }
+    }
+}
 
-//save information and go to next page
-submitBtn.addEventListener("click", function(event) {
+function queCounter(i){
+    var total_que = quiz_box.querySelector(".total_que");
+    var total_que_tag = '<span><p>'+ i +'</p><p>Of</p><p>'+ questions.length +'</p>Questions</span>';
+    total_que.innerHTML = total_que_tag;
+}
+
+var testButton = document.getElementById("saveData");
+
+function saveData(event) {
     event.preventDefault();
-    scoreBoard.style.display = "none";
-    introPage.style.display = "none";
-    highScorePage.style.display = "block";
-    quizPage.style.display = "none"
-    saveScore();
-});
+    console.log("Hello");
+}
 
-//check highscore ranking list
-scoreCheck.addEventListener("click", function(event) {
-    event.preventDefault();
-    scoreBoard.style.display = "none";
-    introPage.style.display = "none";
-    highScorePage.style.display = "block";
-    quizPage.style.display = "none"
-    renderScore();  
-});
+var saveInitials = document.getElementById("#saveInitials");
+var storedValue = localStorage.getItem("gamer");
 
-//go back to main page
-backButton.addEventListener("click", function(event) {
-    event.preventDefault();
-    scoreBoard.style.display = "none";
-    introPage.style.display = "block";
-    highScorePage.style.display = "none";
-    quizPage.style.display = "none";
-    location.reload();
-});
-
-//clear local storage and clear page shows
-clearButton.addEventListener("click", function(event) {
-    event.preventDefault();
-    localStorage.clear();
-    renderScore();
-})
+testButton.addEventListener("click", saveData);
